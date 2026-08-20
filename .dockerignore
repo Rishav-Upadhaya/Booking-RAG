@@ -1,0 +1,14 @@
+.venv/
+__pycache__/
+*.pyc
+.env
+.env.example
+.pytest_cache/
+.ruff_cache/
+*.egg-info/
+.git/
+.gitignore
+tests/
+scripts/
+bm25_params.json
+.DS_Store
