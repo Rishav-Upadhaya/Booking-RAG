@@ -1,16 +1,16 @@
-# palm-rag
+# Interview-Booking RAG
 
 Document RAG backend: ingestion, hybrid retrieval, and conversational RAG with tool-calling agents for interview booking.
 
 ## Features
 
-- **Upload & ingest** PDF/TXT documents, chunk them (`fixed` token window or `recursive` structure-aware), embed, and index in Pinecone — all in the background
-- **Hybrid retrieval** — dense vectors + `pinecone-sparse-english-v0` BM25-style sparse search, re-ranked with `bge-reranker-v2-m3`
-- **Conversational RAG** — LangChain `create_agent` (LangGraph runtime) with retrieval, PII redaction, and conversation summarization middleware
-- **Intent classification** — rule + embedding-based routing (domain questions, booking, greeting, guardrail, recall, off-topic)
-- **Interview booking** — deterministic booking flow (extract → normalize → validate → persist), LLM only in free-text normalization
-- **Session memory** — Redis-backed, per-session, TTL-expiring history with edit/retry support
-- **Streaming** — Server-Sent Events for chat replies with incremental tokens, sources, and token usage
+- **Upload & ingest** PDF/TXT documents, chunk them (`fixed` token window or `recursive` structure-aware), embed, and index in Pinecone, all in the background
+- **Hybrid retrieval**: dense vectors + `pinecone-sparse-english-v0` BM25-style sparse search, re-ranked with `bge-reranker-v2-m3`
+- **Conversational RAG**: LangChain `create_agent` (LangGraph runtime) with retrieval, PII redaction, and conversation summarization middleware
+- **Intent classification**: rule + embedding-based routing (domain questions, booking, greeting, guardrail, recall, off-topic)
+- **Interview booking**: deterministic booking flow (extract → normalize → validate → persist), LLM only in free-text normalization
+- **Session memory**: Redis-backed, per-session, TTL-expiring history with edit/retry support
+- **Streaming**: Server-Sent Events for chat replies with incremental tokens, sources, and token usage
 
 ## Architecture
 
@@ -31,12 +31,12 @@ Document RAG backend: ingestion, hybrid retrieval, and conversational RAG with t
    └─────────────┘   └──────────────┘   └──────────────┘   └─────────────┘
 ```
 
-- `app/api/` — FastAPI routes
-- `app/chunking/`, `app/extraction/`, `app/embeddings/`, `app/vectorstore/` — ingestion pipeline
-- `app/rag/`, `app/intent/`, `app/retrieval/` — chat/agent pipeline
-- `app/booking/`, `app/services/` — booking and persistence services
-- `app/memory/` — Redis session memory
-- `alembic/` — schema migrations
+- `app/api/`: FastAPI routes
+- `app/chunking/`, `app/extraction/`, `app/embeddings/`, `app/vectorstore/`: ingestion pipeline
+- `app/rag/`, `app/intent/`, `app/retrieval/`: chat/agent pipeline
+- `app/booking/`, `app/services/`: booking and persistence services
+- `app/memory/`: Redis session memory
+- `alembic/`: schema migrations
 
 ## Tech Stack
 
@@ -44,7 +44,7 @@ Document RAG backend: ingestion, hybrid retrieval, and conversational RAG with t
 | ------------ | ------------------------------------------------------------- |
 | API          | FastAPI + Uvicorn                                             |
 | Runtime      | LangChain `create_agent` on LangGraph                         |
-| Vector store | Pinecone (serverless) — dense + sparse hybrid, hosted rerank  |
+| Vector store | Pinecone (serverless): dense + sparse hybrid, hosted rerank  |
 | Embeddings   | Jina `jina-embeddings-v3` (cloud) or `all-MiniLM-L6-v2` (local) |
 | LLM          | OpenRouter (OpenAI-compatible endpoint)                       |
 | Memory       | Redis                                                         |
@@ -147,7 +147,7 @@ All settings are read from `.env` (see `.env.example` for the full list).
 | Table       | Contents                                              |
 | ----------- | ----------------------------------------------------- |
 | `documents` | filename, content type, status, chunking strategy, chunk count, error |
-| `chunks`    | text, source page, vector id — one row per indexed vector |
+| `chunks`    | text, source page, vector id: one row per indexed vector |
 | `bookings`  | name, email, date, time, session id                   |
 
 `documents.status` transitions: `pending` → `processing` → `ready` / `failed` (with `error` message).
