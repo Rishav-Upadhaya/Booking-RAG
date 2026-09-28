@@ -32,9 +32,11 @@ _NAME_RE = re.compile(
     r"\s+([A-Za-z][A-Za-z .'’-]{1,60})",
     re.IGNORECASE,
 )
+# Full names first: regex alternation takes the first match, so "oct" listed
+# before "october" would capture "5th Oct" and silently drop the year.
 _MONTHS = (
-    r"jan|feb|mar|apr|may|jun|jul|aug|sept|sep|oct|nov|dec|"
-    r"january|february|march|april|june|july|august|september|october|november|december"
+    r"january|february|march|april|june|july|august|september|october|november|december|"
+    r"jan|feb|mar|apr|may|jun|jul|aug|sept|sep|oct|nov|dec"
 )
 _DATE_RE = re.compile(
     r"\d{1,4}[/-]\d{1,2}[/-]\d{2,4}"
